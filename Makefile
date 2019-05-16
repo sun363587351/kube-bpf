@@ -11,8 +11,7 @@ IMAGE_BUILD_BRANCH := $(IMAGE_BUILD_NAME):$(GIT_BRANCH)
 IMAGE_BUILD_COMMIT := $(IMAGE_BUILD_NAME):$(GIT_COMMIT)
 IMAGE_BUILD_LATEST := $(IMAGE_BUILD_NAME):latest
 
-
-LDFLAGS := -ldflags "" # -ldflags "-extldflags '-static'"
+LDFLAGS := --ldflags ''
 
 RUNNER ?= output/runner
 
@@ -26,10 +25,15 @@ $(IMAGE_BUILD_NAME):
 		-f Dockerfile .
 	docker tag $(IMAGE_BUILD_BRANCH) $(IMAGE_BUILD_COMMIT)
 	# temporarily building latest here, too
-	docker tag $(IMAGE_BUILD_COMMIT) $(IMAGE_BUILD_LATEST) 
+	docker tag $(IMAGE_BUILD_COMMIT) $(IMAGE_BUILD_LATEST)
 
 .PHONY: build
 build: clean ${RUNNER}
+
+# do not link against shared libraries
+.PHONY: static
+static:
+	@make LDFLAGS="--ldflags '-extldflags \"-static\"'" build
 
 .PHONY: clean
 clean:
@@ -37,8 +41,3 @@ clean:
 
 .PHONY: image
 image: $(IMAGE_BUILD_NAME)
-
-
-
-	
-	
