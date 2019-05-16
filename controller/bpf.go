@@ -102,6 +102,7 @@ func (s *BPF) syncToStdout(keysnap interface{}) error {
 
 	if exists {
 		bp := obj.(*v1alpha1.BPF)
+		fmt.Printf("\n[PRESENT] %+v", bp)
 		ds, err := daemonset.New(bp, s.appsv1Client)
 		if err != nil {
 			return err
@@ -118,8 +119,7 @@ func (s *BPF) syncToStdout(keysnap interface{}) error {
 	}
 
 	bp := keysnap.(*v1alpha1.BPF)
-
-	fmt.Printf("does not exist: %v", bp)
+	fmt.Printf("\n[MISSING] %+v", bp)
 
 	return nil
 }

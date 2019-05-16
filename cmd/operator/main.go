@@ -11,15 +11,14 @@ import (
 	operator "github.com/bpftools/kube-bpf"
 )
 
-var (
-	VERSION = "0.0.0.dev"
+// Version is the version of the Kubernetes BPF Operator
+const Version ="0.0.0.dev"
 
-	options operator.Config
-)
+var options operator.Config
 
 func main() {
 	if err := run(); err != nil {
-		fmt.Errorf(err.Error())
+		fmt.Fprintf(os.Stderr, err.Error())
 		os.Exit(1)
 	}
 }
@@ -33,7 +32,7 @@ func run() error {
 
 	options.Labels = map[string]string{
 		"operator": "bpf-operator",
-		"version":  VERSION,
+		"version":  Version,
 	}
 
 	op := operator.New(options, zap.NewNop())
