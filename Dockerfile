@@ -3,10 +3,10 @@
 # RUN apk add --update \
 #     make \
 #     bash \
-#     git 
+#     git
 #     # elfutils-dev \
 #     # musl-dev \
-#     # gcc 
+#     # gcc
 
 # RUN ln -s /usr/lib/cmake/llvm5 /usr/lib/cmake/llvm
 # RUN ln -s /usr/include/llvm5/llvm /usr/include/llvm
@@ -17,7 +17,7 @@
 
 # RUN make build
 
-FROM alpine:3.8
+FROM alpine:3.9
 
 RUN apk add --update libc6-compat
 
@@ -30,4 +30,4 @@ RUN apk add --update libc6-compat
 ADD output/runner /runner
 ENTRYPOINT ["/runner"]
 
-# run me => docker run -it --cap-add SYS_ADMIN -v /sys:/sys -p 9387:9387 leodido/runbpf
+# run me => docker run -it --rm --cap-add SYS_ADMIN -v /sys:/sys -p 9387:9387 leodido/runbpf
